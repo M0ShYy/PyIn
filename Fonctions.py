@@ -11,7 +11,7 @@ charlist = numbers + Llettres + Uletters + symboles
 
 
 def Salt():
-    longueur = random.randrange(10, 15)
+    longueur = 64
     password = ""
 
     for j in range(0, longueur):                                        # foreach characters
@@ -72,8 +72,6 @@ def testPassStrength(password):
         else:
             print("Valid Password")
             return True
-
-
 
 
 def WriteCSV(file, data):
