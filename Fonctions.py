@@ -63,19 +63,16 @@ def signin(file, user, password):
         # displaying the contents of the CSV file
         for lines in csvFile:
             if user in lines["Username"]:
-                print('user trouvé: ')
+                print('user find: ')
                 password = password + lines["Salt"]                                 # appending the salt to the password
                 password = hashlib.sha256(password.encode('utf-8')).hexdigest()     # hashing the password+ salt
                 if password == lines["Password"]:
                     print("Bon MDP")
-                    print(f"bienvenue {user}")
+                    print(f"Welcom {user}")
                 else:
-                    print("Mauvais MDP")
+                    print("wrong Password")
                 break
         file.close()
-
-
-
 
 
 def signup(file, user, password):
