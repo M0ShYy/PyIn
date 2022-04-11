@@ -4,14 +4,14 @@ import hashlib
 
 # list of the characters available
 numbers = "0123456789"
-lettres = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-symboles = "!#$%&"
-charlist = numbers + lettres + symboles
+Llettres = "abcdefghijklmnopqrstuvwxyz"
+Uletters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+symboles = "!#$%&_-.:"
+charlist = numbers + Llettres + Uletters + symboles
 
 
 def Salt():
-    global charlist
-    longueur = random.randrange(10,15)
+    longueur = random.randrange(10, 15)
     password = ""
 
     for j in range(0, longueur):                                        # foreach characters
@@ -41,6 +41,41 @@ def testPass(passwd, confpasswd):
     return test
 
 
+def testPassStrength(password):
+    Upper = False
+    Lower = False
+    Number = False
+    symbols = False
+    if len(password) <= 10:
+            print("Your password is to short (Min 10 chars)")
+    else:
+        for i in password:
+            if i in Uletters:
+                Upper = True
+            elif i in Llettres:
+                Lower = True
+            elif i in numbers:
+                Number = True
+            elif i in symboles:
+                symbols = True
+        if not Upper:
+            print("You have to have min ONE Uppercase lettre")
+            return False
+        elif not Lower:
+            print("You have to have min ONE Lowercase lettre")
+            return False
+        elif not Number:
+            print("You have to have min ONE Number")
+            return False
+        elif not symbols:
+            print("You have to have min ONE symbole (!#$%&_-.:)")
+        else:
+            print("Valid Password")
+            return True
+
+
+
+
 def WriteCSV(file, data):
     with open(file, 'a') as f_object:
         # Pass this file object to csv.writer()
@@ -67,8 +102,8 @@ def signin(file, user, password):
                 password = password + lines["Salt"]                                 # appending the salt to the password
                 password = hashlib.sha256(password.encode('utf-8')).hexdigest()     # hashing the password+ salt
                 if password == lines["Password"]:
-                    print("Bon MDP")
-                    print(f"Welcom {user}")
+                    print("Good Password")
+                    print(f"Welcome {user}")
                 else:
                     print("wrong Password")
                 break
@@ -80,4 +115,4 @@ def signup(file, user, password):
     password = password + salt                                                      # appending the salt to the password
     password = hashlib.sha256(password.encode('utf-8')).hexdigest()                 # hashing the password+ salt
     data = [user, password, salt]
-    WriteCSV(file, data)                                                            # write the data il the csv file
+    WriteCSV(file, data)    # write the data il the csv file
